@@ -1,14 +1,3 @@
-/*
- =================================================================================================================
- Hàm strcmp() được sử dụng để so sánh hai chuỗi, việc so sánh được thực hiện về mặt từ vựng.
- Cú pháp:int strcmp( const char* lhs, const char* rhs );
- Giá trị 0 nếu hai chuỗi bằng nhau về mặt từ vựng.
-=================================================================================================================
- Channel M&E Automation:https://bit.ly/3uz3Bt8
- Vui lòng đăng ký kênh https://bit.ly/34a2of1 cảm ơn các bạn rất nhiều!
- Danh sách phát Arduino : https://bit.ly/34BUDlU
- =================================================================================================================
- */
 #include <Keypad.h>
 #include <Servo.h>
 #include <Wire.h>
