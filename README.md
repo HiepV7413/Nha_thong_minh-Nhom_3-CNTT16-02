@@ -1,4 +1,4 @@
-# 🎓 DaiNam University Plagiarism Detection System
+# 🎓 DaiNam University Hệ Thống Nhà Thông Minh
 
 <div align="center">
 
