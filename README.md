@@ -72,9 +72,74 @@ Hệ thống được xây dựng theo mô hình phân tầng gồm:
 
 - **Đoạn mã mẫu:**  
   ```cpp
-  // Khởi tạo WiFi, cảm biến DHT11, LCD I2C và các thiết bị như buzzer, quạt, LED.
-  // Hàm gửi dữ liệu cảm biến và cập nhật trạng thái từ server.
-  // ... (xem chi tiết trong code Phòng Bếp)
+  #include <WiFi.h>
+  #include <HTTPClient.h>
+  #include <LiquidCrystal_I2C.h>
+  #include <DHT.h>
+
+  // --- Cấu hình WiFi ---
+  const char* ssid = "kevin kaslana";
+  const char* password = "12345678";
+
+  // Địa chỉ server Python (Flask)
+  String serverIP = "192.168.82.9"; 
+  String serverPort = "5000";
+  String updateEndpoint = "http://192.168.82.9:5000/update";
+
+  // --- Cấu hình cảm biến DHT11 ---
+  #define DHTPIN 15
+  #define DHTTYPE DHT11
+  DHT dht(DHTPIN, DHTTYPE);
+
+  // --- Khởi tạo LCD ---
+  LiquidCrystal_I2C lcd(0x27, 16, 2);
+
+  // --- Khai báo chân kết nối (điều chỉnh theo ESP32 của bạn) ---
+  const int gasSensorPin = 34;    
+  const int buzzerPin    = 16;    
+  const int fanPin       = 17;    
+  const int ledPin       = 18;    
+  const int buttonPin    = 19;    
+
+  // *** MỚI ***: Khai báo thêm LED 2 để báo động
+  const int ledAlarmPin  = 23;    
+  bool ledAlarmState     = false; // Trạng thái LED 2 (báo động)
+
+  // --- Ngưỡng ---
+  const float tempThreshold = 30.0;
+  const int gasThreshold = 6000;    
+  const int gasHysteresis = 500;    
+
+  // Gửi dữ liệu cảm biến + trạng thái báo động (cho phòng bếp)
+  void sendData(float temperature, float humidity, float gasPpm) {
+  if (WiFi.status() == WL_CONNECTED) {
+    HTTPClient http;
+    String url = updateEndpoint + "?room=kitchen&temp=" + String(temperature) +
+                 "&hum=" + String(humidity) +
+                 "&gas=" + String(gasPpm) +
+                 "&alarm=" + String(alarmState ? "ALERT" : "SAFE");
+    http.begin(url);
+    int httpResponseCode = http.GET();
+    if (httpResponseCode > 0) {
+      String response = http.getString();
+      Serial.println("Server response: " + response);
+    } else {
+      Serial.print("Error code: ");
+      Serial.println(httpResponseCode);
+    }
+    http.end();
+  }
+  }
+
+  // Gửi dữ liệu cảm biến + trạng thái báo động (phòng bếp)
+  sendData(temperature, humidity, ppmValue);
+
+  // Cập nhật LED 1 từ server (nếu không bị khóa)
+  updateLEDFromServer();
+
+  delay(1000);
+  }
+  // ... (xem chi tiết trong code Phòng bếp)
   ```
 
 ### 2. Phòng Khách
@@ -90,9 +155,105 @@ Hệ thống được xây dựng theo mô hình phân tầng gồm:
 
 - **Đoạn mã mẫu:**  
   ```cpp
-  // Cấu hình WiFi, cảm biến DHT11 và HC-SR04 của Phòng Khách.
-  // Hàm gửi dữ liệu cảm biến, cập nhật trạng thái LED, quạt và cảm biến từ server.
-  // ... (xem chi tiết trong code Phòng Khách)
+  #include <ESP8266WiFi.h>
+  #include <ESP8266HTTPClient.h>
+  #include <DHT.h>
+
+  // --- Cấu hình WiFi ---
+  const char* ssid = "kevin kaslana";
+  const char* password = "12345678";
+
+  // Địa chỉ server Python (Flask)
+  String serverIP = "192.168.82.9"; 
+  String serverPort = "5000";
+
+  // Endpoint cập nhật dữ liệu cho phòng khách (chỉ gửi các thông số cảm biến)
+  String livingRoomUpdateEndpoint = "http://" + serverIP + ":" + serverPort + "/update?room=living_room";
+  // Endpoint điều khiển và lấy trạng thái từ server
+  String livingRoomSetLEDEndpoint    = "http://" + serverIP + ":" + serverPort + "/set_led?room=living_room&state=";
+  String livingRoomSetFanEndpoint     = "http://" + serverIP + ":" + serverPort + "/set_fan?state=";
+  String livingRoomSetSensorEndpoint  = "http://" + serverIP + ":" + serverPort + "/set_sensor?room=living_room&state=";
+  String livingRoomGetLEDEndpoint     = "http://" + serverIP + ":" + serverPort + "/get_led?room=living_room";
+  String livingRoomGetFanEndpoint      = "http://" + serverIP + ":" + serverPort + "/get_fan?room=living_room";
+  String livingRoomGetSensorEndpoint   = "http://" + serverIP + ":" + serverPort + "/get_sensor?room=living_room";
+
+  // ===== CẤU HÌNH CẢM BIẾN =====
+  // DHT11 (sử dụng chân D5 trên ESP8266, tức GPIO14)
+  #define DHTPIN 14
+  #define DHTTYPE DHT11
+  DHT dht(DHTPIN, DHTTYPE);
+
+  // HC-SR04 (đặt trig và echo theo chân có sẵn trên board NodeMCU)
+  const int trigPin = 5;  // D1 (GPIO5)
+  const int echoPin = 4;  // D2 (GPIO4) //Phần chân cắm cảm biến khoảng cách
+
+  // ===== CẤU HÌNH ĐIỆN RA =====
+  // Các chân kết nối với LED và quạt (các chân có thể thay đổi tùy board)
+  const int led1Pin = 13;  // LED1: điều khiển từ server
+  const int led2Pin = 15;  // LED2: bật khi phát hiện chuyển động
+  const int fanPin    = 2;  // Quạt
+
+  // ----- Hàm gửi dữ liệu phòng khách (chỉ cảm biến) -----
+  void sendLivingRoomData(float temperature, float humidity, float distance) {
+  if (WiFi.status() == WL_CONNECTED) {
+    HTTPClient http;
+    WiFiClient client;
+    String motionStr = motionDetected ? "YES" : "NO";
+    String url = livingRoomUpdateEndpoint +
+                 "&temp=" + String(temperature, 1) +
+                 "&hum=" + String(humidity, 1) +
+                 "&distance=" + String(distance, 1) +
+                 "&motion=" + motionStr;
+    http.begin(client, url);  // Sử dụng API mới với WiFiClient
+    int httpResponseCode = http.GET();
+    if (httpResponseCode > 0) {
+      String response = http.getString();
+      Serial.println("Living room update: " + response);
+    } else {
+      Serial.print("Error code: ");
+      Serial.println(httpResponseCode);
+    }
+    http.end();
+  }
+  }
+
+  // ----- Hàm cập nhật trạng thái Cảm biến từ server -----
+  void updateLivingRoomSensorFromServer() {
+  if (WiFi.status() == WL_CONNECTED) {
+    HTTPClient http;
+    WiFiClient client;
+    http.begin(client, livingRoomGetSensorEndpoint);  // API mới
+    int httpResponseCode = http.GET();
+    if (httpResponseCode > 0) {
+      String payload = http.getString();
+      // Giả sử server trả về JSON: {"sensor": "YES"} hoặc {"sensor": "NO"}
+      if (payload.indexOf("YES") != -1) {
+        sensorEnabled = true;
+        Serial.println("Remote sensor ENABLED");
+      } else if (payload.indexOf("NO") != -1) {
+        sensorEnabled = false;
+        if (led2State) {
+          led2State = false;
+          digitalWrite(led2Pin, LOW);
+        }
+        Serial.println("Remote sensor DISABLED");
+      }
+    }
+    http.end();
+  }
+  }
+
+  // ----- GỬI DỮ LIỆU PHÒNG KHÁCH (chỉ cảm biến) -----
+  sendLivingRoomData(temperature, humidity, distance);
+  
+  // ----- ĐỒNG BỘ TRẠNG THÁI TỪ SERVER (điều khiển từ web) -----
+  updateLivingRoomLEDFromServer();
+  updateLivingRoomFanFromServer();
+  updateLivingRoomSensorFromServer();
+  
+  delay(250);
+  }
+  // ... (xem chi tiết trong code Phòng khách)
   ```
 
 ### 3. Phòng Ngủ
@@ -108,8 +269,78 @@ Hệ thống được xây dựng theo mô hình phân tầng gồm:
 
 - **Đoạn mã mẫu:**  
   ```cpp
-  // Cấu hình WiFi, DHT11, cảm biến mưa và servo điều khiển cửa sổ cho Phòng Ngủ.
-  // Hàm gửi dữ liệu cảm biến và cập nhật trạng thái từ server.
+  #include <ESP8266WiFi.h>
+  #include <ESP8266HTTPClient.h>
+  #include <DHT.h>
+  #include <Servo.h>
+
+  // --- Cấu hình WiFi ---
+  const char* ssid = "kevin kaslana";
+  const char* password = "12345678";
+
+  // Địa chỉ server Python (Flask)
+  String serverIP = "192.168.82.9"; 
+  String serverPort = "5000";
+  String updateEndpoint = "http://192.168.82.9:5000/update";
+
+  // ----- CẤU HÌNH CẢM BIẾN & ĐIỆN RA -----
+  // DHT11: đo nhiệt độ, độ ẩm
+  #define DHTPIN 14    // VD: sử dụng GPIO14 (D5) cho DHT11
+  #define DHTTYPE DHT11
+  DHT dht(DHTPIN, DHT11);
+
+  // Rain sensor: sử dụng chân digital (nếu có mưa, tín hiệu = LOW)
+  #define RAINPIN D6   // VD: GPIO12 (D6)
+
+  // Đèn LED
+  #define LEDPIN 13   // VD: GPIO13 (D7)
+
+  // Quạt (2 chân): chỉ cần bật/tắt
+  #define FANPIN 16   // VD: GPIO16 (D0)
+
+  // MicroServo: dùng để điều khiển cửa sổ (0° = đóng, 90° = mở)
+  #define SERVO_PIN 5  // VD: GPIO5 (D1)
+  Servo windowServo;
+
+  // Biến trạng thái điều khiển (được đồng bộ từ server)
+  bool ledState = false;
+  bool fanState = false;
+  String windowState = "CLOSED";  // "OPEN" hoặc "CLOSED"
+
+  // ----- Hàm gửi dữ liệu cảm biến lên server -----
+  // Gửi dữ liệu cho phòng "bedroom": nhiệt độ, độ ẩm, và trạng thái mưa ("RAIN" nếu mưa, "DRY" nếu không)
+  void sendBedroomData(float temperature, float humidity, bool isRaining) {
+  if(WiFi.status() == WL_CONNECTED) {
+    HTTPClient http;
+    WiFiClient client;
+    String rainStr = isRaining ? "RAIN" : "DRY";
+    String url = updateEndpoint + "?room=bedroom&temp=" + String(temperature, 1) +
+                 "&hum=" + String(humidity, 1) +
+                 "&rain=" + rainStr;
+    http.begin(client, url);
+    int httpCode = http.GET();
+    if(httpCode > 0) {
+      String payload = http.getString();
+      Serial.println("Bedroom update: " + payload);
+    } else {
+      Serial.print("Error code: ");
+      Serial.println(httpCode);
+    }
+    http.end();
+  }
+  }
+
+  // Gửi dữ liệu cảm biến lên server cho phòng "bedroom"
+  sendBedroomData(temperature, humidity, isRaining);
+  
+  // Lấy trạng thái điều khiển từ server
+  updateBedroomLEDFromServer();
+  updateBedroomFanFromServer();
+  updateBedroomWindowFromServer();
+  
+  // Cập nhật cửa sổ dựa theo trạng thái và tự động đóng nếu mưa
+  updateBedroomWindow();
+
   // ... (xem chi tiết trong code Phòng Ngủ)
   ```
 
@@ -129,8 +360,37 @@ Hệ thống được xây dựng theo mô hình phân tầng gồm:
 
 - **Đoạn mã mẫu:**  
   ```cpp
-  // Khởi tạo LCD I2C, servo, module RFID RC522 và bàn phím ma trận.
-  // Xác thực thẻ RFID qua UID và kiểm tra mật khẩu nhập vào để điều khiển cửa.
+  LiquidCrystal_I2C lcd(0x27, 16, 2); // 0x27 địa chỉ LCD, 16 cột và 2 hàng
+  Servo myservo;                       // Tạo biến myServo của loại Servo
+
+  // Khai báo các chân kết nối RC522
+  #define SS_PIN A3   // Slave Select (SS) / SDA
+  #define RST_PIN 9    // Reset pin
+
+  //Sử dụng các chân SPI cứng
+  #define MOSI_PIN 11
+  #define MISO_PIN 12
+  #define SCK_PIN 13
+
+  //Các chân đã thay đổi
+  #define SERVO_PIN A0   // Chân điều khiển servo
+  #define LED_PIN A2    // Chân điều khiển LED (tùy chọn)
+
+  MFRC522 mfrc522(SS_PIN, RST_PIN); // Tạo đối tượng MFRC522
+
+  // Khởi tạo SPI và RC522
+  SPI.begin();        // Khởi tạo SPI bus
+  mfrc522.PCD_Init(); // Khởi tạo MFRC522
+
+  // Cấu hình các chân cho RC522 (Quan trọng khi dùng chân Analog làm Digital)
+  pinMode(SS_PIN, OUTPUT); //A3
+  pinMode(A1, OUTPUT);  // MOSI
+  pinMode(A2, INPUT);   // MISO
+   pinMode(7, OUTPUT);     //RST
+
+  Serial.println("RC522 - Sẵn sàng");
+  }
+
   // ... (xem chi tiết trong code Cửa Ra Vào)
   ```
 
