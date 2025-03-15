@@ -885,9 +885,8 @@ void loop() {
 
 ## 📚 Tài liệu
 
-- [Hướng dẫn cài đặt và cấu hình chi tiết](docs/installation.md)
-- [Hướng dẫn sử dụng giao diện web & API](docs/user-manual.md)
-- [Tài liệu lập trình module cho từng phòng](docs/module_reference.md)
+- [Code phần nhà thông minh](Cam_nhan_dien_nguoi_bat_den)
+- [Code phần hệ thống nhận diện người bật đèn](Main_House)
 
 ## 📝 License
 
