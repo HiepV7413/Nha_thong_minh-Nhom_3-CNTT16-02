@@ -20,7 +20,7 @@
   <a href="#-hướng-dẫn-sử-dụng">Hướng dẫn sử dụng</a> •
   <a href="#-flask-server--web-html">Flask Server & Web HTML</a> •
   <a href="#-hệ-thống-phát-hiện-người">Hệ thống Phát Hiện Người</a> •
-  <a href="#-tài-liệu">Tài liệu</a>
+  <a href="#-code-full">Code full</a>
 </p>
 
 ## 🏗️ Kiến trúc
@@ -883,7 +883,7 @@ void loop() {
   - ESP8266 liên tục lấy trạng thái từ server và bật LED khi có cảnh báo.  
   - Giao diện web hiển thị video stream và cảnh báo khi phát hiện người.
 
-## 📚 Tài liệu
+## 📚 Code full
 
 - [Code phần nhà thông minh](Cam_nhan_dien_nguoi_bat_den)
 - [Code phần hệ thống nhận diện người bật đèn](Main_House)
