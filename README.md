@@ -1,7 +1,7 @@
 # 🏠 AI & IoT Nhà Thông Minh
 
 <div align="center">
-  <img src="docs/images/smart_home_logo.png" alt="Smart Home Logo" width="200"/>
+  <img src="docs/images/home.png" alt="Smart Home Logo" width="200"/>
   <!-- Bạn có thể thay thế logo và hình ảnh phù hợp -->
 </div>
 
