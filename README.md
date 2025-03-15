@@ -38,7 +38,7 @@ Hệ thống được xây dựng theo mô hình phân tầng gồm:
    - **Phát Hiện Người:** Hệ thống riêng dùng ESP32-CAM, YOLO để phân tích hình ảnh, cập nhật trạng thái cảnh báo và cung cấp video stream; ESP8266 sẽ bật LED khi có cảnh báo. Giao diện web của hệ thống này hiển thị video và cảnh báo.
 
 <p align="center">
-  <img src="docs/images/architecture_smart_home.png" alt="Kiến trúc hệ thống" width="800"/>
+  <img src="docs/images/image.png" alt="Cấu trúc hệ thống" width="800"/>
 </p>
 
 ## ✨ Tính năng chính
