@@ -1,7 +1,6 @@
 # 🏠 AI & IoT Nhà Thông Minh
 
 <div align="center">
-  <img src="docs/images/smart-home.png" alt="Smart Home Logo" width="200"/>
   <img src="docs/images/logo.png" alt="Dai Nam Logo" width="200"/>
   <img src="docs/images/AIoTLab_logo.png" alt="AIoTLab Logo" width="200"/>
 </div>
