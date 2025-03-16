@@ -1,8 +1,16 @@
 <h1 align="center"> 🏠 HỆ THỐNG NHÀ THÔNG MINH TÍCH HỢP AI & IOT</h1>
 
 <div align="center">
-  <img src="docs/images/logo.png" alt="Dai Nam Logo" width="200"/>
-  <img src="docs/images/AIoTLab_logo.png" alt="AIoTLab Logo" width="200"/>
+  
+  <p align="center">
+    <img src="docs/images/logo.png" alt="Dai Nam Logo" width="200"/>
+    <img src="docs/images/AIoTLab_logo.png" alt="AIoTLab Logo" width="200"/>
+  </p>
+
+  [![Made by AIoTLab](https://img.shields.io/badge/Made%20by%20AIoTLab-blue?style=for-the-badge)](https://www.facebook.com/DNUAIoTLab)
+  [![Fit DNU](https://img.shields.io/badge/Fit%20DNU-green?style=for-the-badge)](https://fitdnu.net/)
+  [![DaiNam University](https://img.shields.io/badge/DaiNam%20University-red?style=for-the-badge)](https://dainam.edu.vn)
+
 </div>
 
 <h2 align="center">Giải pháp giám sát & điều khiển thông minh trong ngôi nhà hiện đại</h2>
@@ -226,33 +234,28 @@ pip install flask pyserial pymongo opencv-python ultralytics numpy
 ## 📰 POSTER & TÀI LIỆU
 
 <p align="center">
-  <img src="docs/images/proposed_method.JPG" alt="Poster dự án" width="800"/>
+  <img src="docs/images/POSTER_XIN_XO_CON_BO_pages-to-jpg-0001.jpg" alt="Poster dự án" width="800"/>
 </p>
-
-- **Tài liệu hướng dẫn chi tiết:**  
-  - [Hướng dẫn cài đặt & cấu hình](docs/installation.md)
-  - [Hướng dẫn sử dụng giao diện & API](docs/user-manual.md)
-  - [Tài liệu lập trình module](docs/module_reference.md)
 
 ---
 
 ## 🤝 ĐÓNG GÓP
 
 Dự án được phát triển bởi:
-| Họ và Tên       | Vai trò                                             |
-|-----------------|-----------------------------------------------------|
-| Nguyễn Nam Hưng | Phát triển mã nguồn, thiết kế hệ thống, kiểm thử     |
-| Hoàng Mạnh Linh | Soạn thảo tài liệu, thiết kế giao diện, hỗ trợ triển khai |
-| Đào Đức Mạnh    | Thiết kế giao diện, hỗ trợ kỹ thuật                  |
-| Cao Văn Huy     | Hỗ trợ phát triển, kiểm thử và tài liệu             |
+| Họ và Tên        | Vai trò                                                    |
+|------------------|------------------------------------------------------------|
+| Vũ Văn Hiệp      | Phát triển mã nguồn, thiết kế hệ thống, thiết kế giao diện |
+| Trần Thị Thu Lan | Phát triển mã nguồn, soạn thảo tài liệu, thiết kế mô hình  |
+| Xa Đức Đồng      | Thiết kế giao diện, thiết kế mô hình, hỗ trợ kỹ thuật      |
+| Trần Hồng Quân   | Phát triển mã nguồn, soạn thảo tài liệu, hỗ trợ kỹ thuật   |
 
-© 2024 AIoTLab – Faculty of Information Technology, DaiNam University.  
+© 2025 AIoTLab – Faculty of Information Technology, DaiNam University.  
 Tất cả các quyền được bảo lưu.
 
 ---
 
 <div align="center">
-  <p>Được xây dựng với 💡 bởi AIoTLab tại Đại Học Đà Nẵng</p>
+  <p>Được xây dựng với 💡 bởi AIoTLab tại Đại Học Đại Nam</p>
   <p>
     <a href="https://fit.dainam.edu.vn">Website</a> • 
     <a href="https://github.com/drkhanusa">GitHub</a> • 
