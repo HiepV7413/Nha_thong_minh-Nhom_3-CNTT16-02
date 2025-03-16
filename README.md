@@ -52,28 +52,28 @@ Project
 │   │   ├── AIoTLab_logo.png
 │   │   ├── POSTER_XIN_XO_CON_BO_pages-to-jpg-0001.jpg
 │   │   └── image.png
-├── modules/
-│   ├── kitchen/                # Code cho Phòng Bếp 🍳
+├── Main_House/
+│   ├── Phong_bep_uno/                # Code cho Phòng Bếp 🍳
 │   │   └── Phong.bepp.ino
-│   ├── living_room/            # Code cho Phòng Khách 🛋️
+│   ├── Phong_khach_uno/            # Code cho Phòng Khách 🛋️
 │   │   └── Phong_khachhh.ino
-│   ├── bedroom/                # Code cho Phòng Ngủ 🛏️
+│   ├── Phong_ngu_uno/                # Code cho Phòng Ngủ 🛏️
 │   │   └── PHONG_NGU.ino
-│   └── door/                   # Code cho Cửa Ra Vào 🚪
+│   └── Cua_ra_vao_uno/                   # Code cho Cửa Ra Vào 🚪
 │       └── _9Control_Led_Icd_Pasword.ino
-├── server_smart_home/
+├── Server_main_house/
 │   ├── app.py                  # Flask Server của Nhà Thông Minh
 │   └── templates/
 │       └── index.html         # Giao diện Web điều khiển hệ thống
-├── people_detection/
-│   ├── esp32_cam/              # Code cho ESP32-CAM (thu hình) 📷
-│   │   └── eCameraWebServer.ino
+├── Cam_nhan_dien_nguoi_bat_den/
+│   ├── CameraWebServer/              # Code cho ESP32-CAM (thu hình) 📷
+│   │   └── CameraWebServer.ino
 │   ├── server_people/          # Flask Server với YOLO, video stream, cảnh báo 🚨
-│   │   └── cam.py
-│   ├── esp8266_led/           # Code cho ESP8266 bật LED theo trạng thái cảnh báo 💡
+│   │   ├── cam.py
+│   │   └── templates/
+│   │       └── index.html         # Giao diện Web cho hệ thống phát hiện người
+│   ├── ESP8266-BTL-CAM/           # Code cho ESP8266 bật LED theo trạng thái cảnh báo 💡
 │   │   └── ESP8266-BTL-CAM.ino
-│   └── templates/
-│       └── index.html         # Giao diện Web cho hệ thống phát hiện người
 └── README.md                   # Tệp hướng dẫn dự án (bạn đang xem) 📖
 ```
 
@@ -193,10 +193,10 @@ pip install flask pyserial pymongo opencv-python ultralytics numpy
 Dự án được phát triển bởi:
 | Họ và Tên        | Vai trò                                                    |
 |------------------|------------------------------------------------------------|
-| Vũ Văn Hiệp      | Phát triển mã nguồn, thiết kế hệ thống, thiết kế giao diện |
-| Trần Thị Thu Lan | Phát triển mã nguồn, soạn thảo tài liệu, thiết kế mô hình  |
-| Xa Đức Đồng      | Thiết kế giao diện, thiết kế mô hình, hỗ trợ kỹ thuật      |
-| Trần Hồng Quân   | Phát triển mã nguồn, soạn thảo tài liệu, hỗ trợ kỹ thuật   |
+| Vũ Văn Hiệp      | Phát triển mã nguồn, thiết kế hệ thống, thiết kế giao diện, thuyết trình |
+| Trần Thị Thu Lan | Đề xuất cải tiến, PowerPoint, thiết kế mô hình, hỗ trợ bài tập lớn   |
+| Xa Đức Đồng      | Thiết kế slide PowerPoint, thiết kế mô hình, đề xuất cải tiến, hỗ trợ bài tập lớn      |
+| Trần Hồng Quân   | Phát triển mã nguồn, thiết kế Poster, hỗ trợ bài tập lớn    |
 
 © 2025 AIoTLab – Faculty of Information Technology, DaiNam University.  
 Tất cả các quyền được bảo lưu.
