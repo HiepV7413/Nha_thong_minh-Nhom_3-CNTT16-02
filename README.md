@@ -194,7 +194,7 @@ Dự án được phát triển bởi:
 | Họ và Tên        | Vai trò                                                    |
 |------------------|------------------------------------------------------------|
 | Vũ Văn Hiệp      | Phát triển mã nguồn, thiết kế hệ thống, thiết kế giao diện, thuyết trình |
-| Trần Thị Thu Lan | Đề xuất cải tiến, PowerPoint, thiết kế mô hình, hỗ trợ bài tập lớn   |
+| Trần Thị Thu Lan | Đề xuất cải tiến, PowerPoint, thiết kế mô hình, video, hỗ trợ bài tập lớn   |
 | Xa Đức Đồng      | Thiết kế slide PowerPoint, thiết kế mô hình, đề xuất cải tiến, hỗ trợ bài tập lớn      |
 | Trần Hồng Quân   | Phát triển mã nguồn, thiết kế Poster, hỗ trợ bài tập lớn    |
 
