@@ -115,7 +115,7 @@ Project
   - LED, buzzer, quạt, servo 🔄
 
 ### 💻 Phần mềm
-- **Python 3+** 🐍
+- **Python 3**
 - **Flask Framework** 🍶
 - **Thư viện YOLO (ultralytics)** và OpenCV cho hệ thống phát hiện người 👁️
 
@@ -198,16 +198,4 @@ Dự án được phát triển bởi:
 | Xa Đức Đồng      | Thiết kế slide PowerPoint, thiết kế mô hình, đề xuất cải tiến, hỗ trợ bài tập lớn      |
 | Trần Hồng Quân   | Phát triển mã nguồn, thiết kế Poster, hỗ trợ bài tập lớn    |
 
-© 2025 AIoTLab – Faculty of Information Technology, DaiNam University.  
-Tất cả các quyền được bảo lưu.
-
----
-
-<div align="center">
-  <p>Được xây dựng với 💡 bởi AIoTLab tại Đại Học Đại Nam</p>
-  <p>
-    <a href="https://fit.dainam.edu.vn">Website</a> • 
-    <a href="https://github.com/drkhanusa">GitHub</a> • 
-    <a href="mailto:contact@dainam.edu.vn">Liên hệ</a>
-  </p>
-</div>
+© 2025 NHÓM 3, CNTT16-02, TRƯỜNG ĐẠI HỌC ĐẠI NAM.  
